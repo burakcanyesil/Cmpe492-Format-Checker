@@ -4,8 +4,13 @@ To run this project,
 
 * Install tkinter
 
-* Install requierements with pip
+* Install requierements.txt with pip:
+```
+pip3.9 install -r requirements.txt
+```
 
 * run with:
 
-(python3.9 main.py)
+```
+python3.9 main.py
+```
