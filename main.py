@@ -204,71 +204,298 @@ file_button.pack()
 # SIDEBAR
 # ###################################
 def finish_selecting():
-    print(get_errors(options, file_name))
+    errors = get_errors(options, file_name)
     new_window = Toplevel(root)
     new_window.title("Results")
     new_window.geometry("1280x720")
 
     frame = ScrollableFrame(new_window, 1200, 700)
-    new_container = new_window
-
-
-
-
+    new_container = frame.scrollable_frame
+    frame.pack(expand=True, fill="both", side="top")
+    Frame(new_container, width=650, height=1).pack(side="top", fill="x", expand=True)
     Label(new_container,
-            text="No errors found!", 
-            font="Times 24 bold",
-        ).pack(fill="x", side="top")
-
-    Label(new_container,
-            text="Acknowledgements Page Errors", 
+            text="Title Page Errors", 
             font="Times 32 bold",
-            bg = "green"
+            bg = "green" if len(errors["title"]) == 0 else "red"
+        ).pack(fill="x", pady=40, side="top")
+
+    if len(errors["title"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for error in errors["title"]:
+            Label(new_container,
+                text=error, 
+                font="Times 16 bold",
+            ).pack(fill="x", side="top")
+
+
+    Label(new_container,
+            text="Approval Page Errors", 
+            font="Times 32 bold",
+            bg = "green" if len(errors["approval"]) == 0 else "red"
+        ).pack(fill="x", pady=40, side="top")
+
+    if len(errors["approval"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for error in errors["approval"]:
+            Label(new_container,
+                text=error, 
+                font="Times 16 bold",
+            ).pack(fill="x", side="top")
+
+    Label(new_container,
+            text="Acknowledgements Section Errors", 
+            font="Times 32 bold",
+            bg = "green" if len(errors["acknowledgements"]) == 0 else "red"
+        ).pack(fill="x", pady=40, side="top")
+
+    if len(errors["acknowledgements"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for error in errors["acknowledgements"]:
+            Label(new_container,
+                text=error, 
+                font="Times 16 bold",
+            ).pack(fill="x", side="top")
+
+
+    Label(new_container,
+            text="Abstract Errors", 
+            font="Times 32 bold",
+            bg = "green" if len(errors["abstract"]) == 0 else "red"
         ).pack(fill="x", pady=40, side="top")
     
-    Label(new_container,
-            text="No errors found!", 
-            font="Times 24 bold",
-        ).pack(fill="x", side="top")
+    if len(errors["abstract"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for error in errors["abstract"]:
+            Label(new_container,
+                text=error, 
+                font="Times 16 bold",
+            ).pack(fill="x", side="top")
+
 
     Label(new_container,
-            text="Abstract Page Errors", 
+            text="Özet Errors", 
             font="Times 32 bold",
-            bg = "green"
+            bg = "green" if len(errors["turkish_abstract"]) == 0 else "red"
         ).pack(fill="x", pady=40, side="top")
 
-    Label(new_container,
-            text="No errors found!", 
-            font="Times 24 bold",
-        ).pack(fill="x", side="top")
+    if len(errors["turkish_abstract"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for error in errors["turkish_abstract"]:
+            Label(new_container,
+                text=error, 
+                font="Times 16 bold",
+            ).pack(fill="x", side="top")
+
 
     Label(new_container,
+            text="Table of Contents Errors", 
+            font="Times 32 bold",
+            bg = "green" if len(errors["toc"]) == 0 else "red"
+        ).pack(fill="x", pady=40, side="top")
+
+    if len(errors["toc"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for error in errors["toc"]:
+            Label(new_container,
+                text=error, 
+                font="Times 16 bold",
+            ).pack(fill="x", side="top")
+
+
+    Label(new_container,
+            text="List of Figures Errors", 
+            font="Times 32 bold",
+            bg = "green" if len(errors["figures"]) == 0 else "red"
+        ).pack(fill="x", pady=40, side="top")
+
+    if len(errors["figures"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for error in errors["figures"]:
+            Label(new_container,
+                text=error, 
+                font="Times 16 bold",
+            ).pack(fill="x", side="top")
+
+
+    Label(new_container,
+            text="List of Tables Errors", 
+            font="Times 32 bold",
+            bg = "green" if len(errors["tables"]) == 0 else "red"
+        ).pack(fill="x", pady=40, side="top")
+
+    if len(errors["tables"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for error in errors["tables"]:
+            Label(new_container,
+                text=error, 
+                font="Times 16 bold",
+            ).pack(fill="x", side="top")
+
+
+    Label(new_container,
+            text="List of Symbols Errors", 
+            font="Times 32 bold",
+            bg = "green" if len(errors["symbols"]) == 0 else "red"
+        ).pack(fill="x", pady=40, side="top")
+
+    if len(errors["symbols"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for error in errors["symbols"]:
+            Label(new_container,
+                text=error, 
+                font="Times 16 bold",
+            ).pack(fill="x", side="top")
+
+
+    Label(new_container,
+            text="List of Acronyms/Abbreviations Errors", 
+            font="Times 32 bold",
+            bg = "green" if len(errors["acronyms"]) == 0 else "red"
+        ).pack(fill="x", pady=40, side="top")
+
+    if len(errors["acronyms"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for error in errors["acronyms"]:
+            Label(new_container,
+                text=error, 
+                font="Times 16 bold",
+            ).pack(fill="x", side="top")
+
+    int_label = Label(new_container,
             text="Introduction Section Errors", 
             font="Times 32 bold",
             bg = "green"
+        )
+    int_label.pack(fill="x", pady=40, side="top")
+    if len(errors["introduction"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for page, error_list in errors["introduction"].items():
+            Label(
+                new_container,
+                text="Page " + str(page),
+                bg="lightgrey",
+                font="Times 24 bold"
+            ).pack(fill="x", side="top")
+            for error in error_list:
+                int_label.config(bg="red")
+                Label(new_container,
+                    text=error, 
+                    font="Times 16 bold",
+                ).pack(fill="x", side="top")
+
+
+    body_label = Label(new_container,
+            text="Body Section Errors", 
+            font="Times 32 bold",
+            bg = "green"
+        )
+    body_label.pack(fill="x", pady=40, side="top")
+    if len(errors["body"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for page, error_list in errors["body"].items():
+            Label(
+                new_container,
+                text="Page " + str(page+options.introduction_length),
+                bg="lightgrey",
+                font="Times 24 bold"
+            ).pack(fill="x", side="top")
+            for error in error_list:
+                body_label.config(bg="red")
+                Label(new_container,
+                    text=error, 
+                    font="Times 16 bold",
+                ).pack(fill="x", side="top")
+
+
+    conc_label = Label(new_container,
+            text="Conclusion Errors", 
+            font="Times 32 bold",
+            bg = "green"
+        )
+    conc_label.pack(fill="x", pady=40, side="top")
+
+    if len(errors["conclusion"]) == 0:
+        Label(new_container,
+                text="No errors found!", 
+                font="Times 24 bold",
+            ).pack(fill="x", side="top")
+    else:
+        for page, error_list in errors["conclusion"].items():
+            Label(
+                new_container,
+                text="Page " + str(page+options.introduction_length+options.body_length),
+                bg="lightgrey",
+                font="Times 24 bold"
+            ).pack(fill="x", side="top")
+            for error in error_list:
+                conc_label.config(bg="red")
+                Label(new_container,
+                    text=error, 
+                    font="Times 16 bold",
+                ).pack(fill="x", side="top")
+
+
+    Label(new_container,
+            text="References Errors", 
+            font="Times 32 bold",
+            bg = "green" if len(errors["references"]) == 0 else "red"
         ).pack(fill="x", pady=40, side="top")
 
+        # Not implemented
     Label(new_container,
             text="No errors found!", 
             font="Times 24 bold",
         ).pack(fill="x", side="top")
 
-    Label(new_container,
-            text="Main Section Errors", 
-            font="Times 32 bold",
-            bg = "red"
-        ).pack(fill="x", pady=40, side="top")
-    
-    Label(new_container,
-            text="Page: 4", 
-            font="Times 24 bold",
-            bg="grey"
-        ).pack(fill="x", side="top")
 
-    Label(new_container,
-            text="Reference to equation 'Equation 2.1' is in wrong format! Should be Equation (2.1)", 
-            font="Times 16 bold",
-        ).pack(fill="x", side="top")
 
 
 OptionsSideBar(root, options, set_page_names, finish_selecting)

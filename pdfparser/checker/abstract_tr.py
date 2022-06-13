@@ -26,17 +26,5 @@ def check_abstract_tr(page: Page, line_space: float, title: str):
 
     if page.lines[0].text.lower() != get_roman(page.pageid):
         errors.append("Özet page should be enumarated with " + get_roman(page.pageid) + "!")
-
-    if page.lines[1].text != "ÖZET":
-        errors.append("Özet page must start with 'ÖZET' header!")
-
-    title_line: str = page.lines[2].text
-    next_line = 3
-    if page.lines[2].box.y1 - page.lines[3].box.y2 < line_space * 1.3:
-        title_line += " " + page.lines[3].text
-        next_line += 1
-
-    if not(title_line.isupper()):
-        errors.append("Title should be uppercase!")
     
     return errors

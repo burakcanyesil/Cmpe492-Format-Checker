@@ -114,6 +114,6 @@ def check_introduction(pages: list[Page], line_space: float):
         if page_index != len(remaining_pages) - 1:
             if eq_with_tolerance(last_line.box.x1, new_paragraph_margin) and eq_with_tolerance(remaining_pages[page_index+1].lines[1].box.x1, left_margin):
                 errors[1].append("One line of a new paragraph left in the end of the page " + str(page_index + 1) + " .")
-    return errors
+    return errors, left_margin, new_paragraph_margin
             
         

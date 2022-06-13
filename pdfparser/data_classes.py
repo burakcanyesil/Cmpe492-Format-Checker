@@ -27,6 +27,7 @@ class Box:
 class Line:
     text: str
     box: Box
+    vertical: bool = False
 
 @dataclass
 class Page:

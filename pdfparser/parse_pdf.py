@@ -1,12 +1,15 @@
 import enum
+from re import S, T
 from tracemalloc import stop
 from typing import Iterable
 from pdfminer.high_level import extract_pages
 from pdfminer.layout import LAParams
 from pdfparser.checker.abstract import check_abstract
 from pdfparser.checker.acronyms import check_acronyms
+from pdfparser.checker.body import check_body
 from pdfparser.checker.figures import check_figures
 from pdfparser.checker.introduction import check_introduction
+from pdfparser.checker.references import check_references
 from pdfparser.checker.symbols import check_symbols
 from pdfparser.checker.tables import check_tables
 from pdfparser.checker.title import *
@@ -29,6 +32,11 @@ def __extract_elements(element) -> list[Page]:
                 text = element.get_text().strip()
 
                 sub_elements.append(Line(text, Box(box[0], box[1], box[2], box[3])))
+            elif sub_element.__class__.__name__ == "LTTextLineVertical":
+                box = element.bbox
+                text = element.get_text().strip()
+
+                sub_elements.append(Line(text, Box(box[0], box[1], box[2], box[3]), True))
             elif sub_element.__class__.__name__ == "LTPage":
                 box = Box(sub_element.bbox[0], sub_element.bbox[1], sub_element.bbox[2], sub_element.bbox[3])
                 sub_elements.append(Page(sub_element.pageid, box, __extract_elements(sub_element)))
@@ -125,8 +133,8 @@ def __get_document(options: Options, pages: list[Page]):
 
     return document
 
-def get_errors(options, file_name):
-    pdf_pages = extract_pages(file_name, laparams=LAParams(line_overlap=0.5, char_margin=6, line_margin=0.2))
+def get_errors(options: Options, file_name):
+    pdf_pages = extract_pages(file_name, laparams=LAParams(line_overlap=0.4, char_margin=6, line_margin=0.2, detect_vertical=True))
     parsed_pages = __extract_elements(pdf_pages)
 
     for page in parsed_pages:
@@ -149,5 +157,9 @@ def get_errors(options, file_name):
     errors["tables"] = check_tables(document.tables, line_space)
     errors["symbols"] = check_symbols(document.symbols, line_space)
     errors["acronyms"] = check_acronyms(document.acronyms, line_space)
-    errors["introduction"] = check_introduction(document.introduction, line_space)
+    _, left_margin, new_paragraph_margin = check_introduction(document.introduction, line_space)
+    errors["introduction"] = check_body(document.introduction, line_space, 0, left_margin, new_paragraph_margin)
+    errors["body"] = check_body(document.body, line_space, options.introduction_length, left_margin, new_paragraph_margin)
+    errors["conclusion"] = check_body(document.conclusion, line_space, options.introduction_length+options.body_length, left_margin, new_paragraph_margin)
+    errors["references"] = check_references(document.references)
     return errors
