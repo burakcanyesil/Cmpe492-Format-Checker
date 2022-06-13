@@ -1,0 +1,10 @@
+altgraph==0.17.2
+cffi==1.15.0
+charset-normalizer==2.0.12
+cryptography==37.0.2
+macholib==1.16
+pdf2image==1.16.0
+pdfminer.six==20220524
+Pillow==9.1.1
+pycparser==2.21
+
